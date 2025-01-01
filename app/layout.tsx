@@ -5,6 +5,7 @@ import Footer from '@/components/footer'
 import BackToTop from '@/components/back-to-top'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/next';
+import { CookieBanner } from '@/components/cookie-consent/CookieBanner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         <BackToTop />
         <SpeedInsights />
         <Analytics />
+        <CookieBanner />
       </body>
     </html>
   )

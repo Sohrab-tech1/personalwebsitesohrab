@@ -9,6 +9,7 @@ import Projects from '@/components/projects'
 import Whitepapers from '@/components/whitepapers'
 import Contact from '@/components/contact'
 import BlogSection from '@/components/blog'
+import { CookieBanner } from '@/components/cookie-consent/CookieBanner'
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <Contact />
         <BlogSection />
       </main>
+      <CookieBanner />
     </div>
   )
 }
