@@ -7,6 +7,8 @@ import { useCookieConsent } from '@/hooks/use-cookie-consent'
 import { Settings2, X } from 'lucide-react'
 import { CookieSettings } from './CookieSettings'
 import Link from 'next/link'
+import Cookies from 'js-cookie'
+
 interface CookieSettings {
   necessary: boolean
   analytics: boolean
@@ -14,10 +16,37 @@ interface CookieSettings {
 }
 
 export function CookieBanner() {
-  const [isMinimized, setIsMinimized] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
-  const { consent, updateConsent, hasInteracted } = useCookieConsent()
+  const { consent, updateConsent } = useCookieConsent()
   
+  // Initialize isMinimized based on consent cookie
+  const [isMinimized, setIsMinimized] = useState(() => {
+    // Only check for cookie on client side
+    if (typeof window !== 'undefined') {
+      const consentCookie = Cookies.get('cookie-consent')
+      return !!consentCookie // minimized if consent exists
+    }
+    return false // show full banner by default
+  })
+
+  // Handle client-side mounting
+  useEffect(() => {
+    setMounted(true)
+    // Check consent on mount and update isMinimized
+    const consentCookie = Cookies.get('cookie-consent')
+    setIsMinimized(!!consentCookie)
+  }, [])
+
+  // Don't render anything on the server side
+  if (!mounted) {
+    return null
+  }
+
+  // Check if there's already a consent cookie
+  const consentCookie = Cookies.get('cookie-consent')
+  const hasConsent = !!consentCookie
+
   const defaultSettings: CookieSettings = {
     necessary: true,
     analytics: false,
@@ -25,25 +54,42 @@ export function CookieBanner() {
   }
 
   const handleAcceptAll = () => {
-    updateConsent({
+    const settings = {
       necessary: true,
       analytics: true,
       marketing: true
+    }
+    updateConsent(settings)
+    Cookies.set('cookie-consent', JSON.stringify(settings), { 
+      expires: 365,
+      path: '/',
+      sameSite: 'Lax'
     })
     setIsMinimized(true)
   }
 
   const handleRejectAll = () => {
-    updateConsent({
+    const settings = {
       necessary: true,
       analytics: false,
       marketing: false
+    }
+    updateConsent(settings)
+    Cookies.set('cookie-consent', JSON.stringify(settings), { 
+      expires: 365,
+      path: '/',
+      sameSite: 'Lax'
     })
     setIsMinimized(true)
   }
 
   const handleSaveSettings = (settings: CookieSettings) => {
     updateConsent(settings)
+    Cookies.set('cookie-consent', JSON.stringify(settings), { 
+      expires: 365,
+      path: '/',
+      sameSite: 'Lax'
+    })
     setShowSettings(false)
     setIsMinimized(true)
   }
@@ -90,6 +136,7 @@ export function CookieBanner() {
                       initialSettings={consent || defaultSettings}
                       onSave={handleSaveSettings}
                       onCancel={() => setShowSettings(false)}
+                      hasConsent={hasConsent}
                     />
                   ) : (
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -98,8 +145,17 @@ export function CookieBanner() {
                           🍪 Cookie Preferences
                         </h3>
                         <p className="text-xs sm:text-sm text-gray-600 leading-relaxed max-w-2xl">
-                          We use cookies to enhance your browsing experience, serve personalized content, 
-                          and analyze our traffic. By clicking "Accept All", you consent to our use of cookies. For full information on how we use cookies, please see our <Link href="/privacy" className="text-blue-600 hover:text-blue-500 underline transition-colors duration-200">privacy policy</Link>.
+                          {hasConsent 
+                            ? "Manage your cookie preferences. You can change your settings at any time."
+                            : (
+                              <>
+                                We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking 'Accept All', you consent to our use of cookies. For full information on how we use cookies, please see our{' '}
+                                <Link href="/privacy" className="text-blue-600 hover:text-blue-500 underline transition-colors duration-200">
+                                  privacy policy
+                                </Link>
+                                .
+                              </>
+                            )}
                         </p>
                         <button
                           onClick={() => setShowSettings(true)}
@@ -108,21 +164,23 @@ export function CookieBanner() {
                           Customize preferences
                         </button>
                       </div>
-                      <div className="flex flex-row gap-2 min-w-max w-full sm:w-auto">
-                        <Button
-                          variant="outline"
-                          onClick={handleRejectAll}
-                          className="flex-1 sm:flex-none border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors duration-200 text-xs sm:text-sm h-8 sm:h-10"
-                        >
-                          Reject All
-                        </Button>
-                        <Button
-                          onClick={handleAcceptAll}
-                          className="flex-1 sm:flex-none bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 text-xs sm:text-sm h-8 sm:h-10"
-                        >
-                          Accept All
-                        </Button>
-                      </div>
+                      {!hasConsent && (
+                        <div className="flex flex-row gap-2 min-w-max w-full sm:w-auto">
+                          <Button
+                            variant="outline"
+                            onClick={handleRejectAll}
+                            className="flex-1 sm:flex-none border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors duration-200 text-xs sm:text-sm h-8 sm:h-10"
+                          >
+                            Reject All
+                          </Button>
+                          <Button
+                            onClick={handleAcceptAll}
+                            className="flex-1 sm:flex-none bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200 text-xs sm:text-sm h-8 sm:h-10"
+                          >
+                            Accept All
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

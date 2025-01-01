@@ -15,9 +15,15 @@ interface CookieSettingsProps {
   initialSettings: CookieSettings
   onSave: (settings: CookieSettings) => void
   onCancel: () => void
+  hasConsent?: boolean
 }
 
-export function CookieSettings({ initialSettings, onSave, onCancel }: CookieSettingsProps) {
+export function CookieSettings({ 
+  initialSettings, 
+  onSave, 
+  onCancel,
+  hasConsent = false 
+}: CookieSettingsProps) {
   const [settings, setSettings] = useState<CookieSettings>(initialSettings)
 
   return (
@@ -28,7 +34,14 @@ export function CookieSettings({ initialSettings, onSave, onCancel }: CookieSett
       className="space-y-6"
     >
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">Cookie Settings</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          {hasConsent ? 'Manage Cookie Settings' : 'Cookie Settings'}
+        </h3>
+        <p className="text-sm text-gray-500 mb-6">
+          {hasConsent 
+            ? 'Adjust your cookie preferences below. Your choices will be saved automatically.'
+            : 'Choose which cookies you want to accept. Your choice will be saved for one year.'}
+        </p>
         <div className="space-y-6">
           <div className="flex items-start space-x-4">
             <div className="mt-1">
@@ -72,7 +85,7 @@ export function CookieSettings({ initialSettings, onSave, onCancel }: CookieSett
                   id="analytics"
                   checked={settings.analytics}
                   onCheckedChange={(checked: boolean) => 
-                    setSettings((prev: CookieSettings) => ({ ...prev, analytics: checked }))
+                    setSettings((prev) => ({ ...prev, analytics: checked }))
                   }
                   className="ml-4"
                 />
@@ -98,7 +111,7 @@ export function CookieSettings({ initialSettings, onSave, onCancel }: CookieSett
                   id="marketing"
                   checked={settings.marketing}
                   onCheckedChange={(checked: boolean) => 
-                    setSettings((prev: CookieSettings) => ({ ...prev, marketing: checked }))
+                    setSettings((prev) => ({ ...prev, marketing: checked }))
                   }
                   className="ml-4"
                 />
@@ -114,13 +127,13 @@ export function CookieSettings({ initialSettings, onSave, onCancel }: CookieSett
           onClick={onCancel}
           className="border-gray-300 text-gray-700 hover:bg-gray-50"
         >
-          Cancel
+          {hasConsent ? 'Close' : 'Cancel'}
         </Button>
         <Button
           onClick={() => onSave(settings)}
           className="bg-blue-600 text-white hover:bg-blue-700"
         >
-          Save Preferences
+          {hasConsent ? 'Update Preferences' : 'Save Preferences'}
         </Button>
       </div>
     </motion.div>
