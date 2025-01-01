@@ -8,6 +8,7 @@ import Skills from '@/components/skills'
 import Projects from '@/components/projects'
 import Whitepapers from '@/components/whitepapers'
 import Contact from '@/components/contact'
+import BlogSection from '@/components/blog'
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         <Projects />
         <Whitepapers />
         <Contact />
+        <BlogSection />
       </main>
     </div>
   )

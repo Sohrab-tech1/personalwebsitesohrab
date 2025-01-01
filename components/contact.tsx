@@ -23,7 +23,17 @@ const formSchema = z.object({
   aiGoal: z.string().min(2, { message: "Please select a primary AI goal." }),
   challenge: z.string().min(10, { message: "Challenge must be at least 10 characters." }),
   whitepapers: z.array(z.string()).min(1, { message: "Please select at least one whitepaper." }),
-})
+  subscribeNewsletter: z.boolean().default(false),
+  acceptTerms: z.boolean().default(false)
+}).refine((data) => {
+  if (data.subscribeNewsletter) {
+    return data.acceptTerms === true;
+  }
+  return true;
+}, {
+  message: "You must accept the terms to subscribe to the newsletter",
+  path: ["acceptTerms"]
+});
 
 type FormData = z.infer<typeof formSchema>
 
@@ -57,16 +67,21 @@ export default function Contact() {
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const { register, handleSubmit, control, formState: { errors }, trigger, getValues, setValue } = useForm<FormData>({
+  const { register, handleSubmit, control, formState: { errors }, trigger, watch, setValue } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: 'onChange'
   })
 
-  const onSubmit = async (data: FormData) => {
+  const subscribeNewsletter = watch('subscribeNewsletter')
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsSubmitting(true)
     setSubmitError(null)
+    
     try {
-      const response = await fetch('/api/send-email', {
+      // First send the contact form email
+      console.log('Starting contact form email submission...')
+      const emailResponse = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,10 +89,35 @@ export default function Contact() {
         body: JSON.stringify(data),
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to send email')
+      if (!emailResponse.ok) {
+        const emailData = await emailResponse.json()
+        throw new Error(`Failed to send contact form: ${emailData.error || 'Unknown error'}`)
       }
 
+      // Then handle newsletter subscription if selected
+      if (data.subscribeNewsletter && data.acceptTerms) {
+        console.log('Starting newsletter subscription...')
+        
+        const newsletterResponse = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: data.email,
+            firstName: data.name.split(' ')[0],
+          }),
+        })
+
+        if (!newsletterResponse.ok) {
+          const newsletterData = await newsletterResponse.json()
+          console.error('Newsletter error:', newsletterData)
+          // Don't throw error for newsletter failure
+          console.warn('Newsletter subscription failed but continuing with form submission')
+        }
+      }
+
+      // Success!
       setSubmitSuccess(true)
       confetti({
         particleCount: 100,
@@ -85,7 +125,12 @@ export default function Contact() {
         origin: { y: 0.6 }
       })
     } catch (error) {
-      setSubmitError('Failed to send message. Please try again later.')
+      console.error('Full submission error:', error)
+      setSubmitError(
+        error instanceof Error 
+          ? error.message 
+          : 'Failed to send message. Please try again later.'
+      )
     } finally {
       setIsSubmitting(false)
     }
@@ -94,6 +139,13 @@ export default function Contact() {
   const nextStep = async () => {
     const currentField = steps[currentStep].field
     const isValid = await trigger(currentField as keyof FormData)
+    
+    // For the final step, check newsletter terms if needed
+    if (currentStep === steps.length - 1 && subscribeNewsletter) {
+      const termsValid = await trigger('acceptTerms')
+      if (!termsValid) return
+    }
+    
     if (isValid) {
       setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))
     }
@@ -150,29 +202,87 @@ export default function Contact() {
         )
       case 'whitepapers':
         return (
-          <div className="space-y-2">
-            {whitepapers.map((whitepaper) => (
-              <div key={whitepaper.id} className="flex items-center space-x-2">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              {whitepapers.map((whitepaper) => (
+                <div key={whitepaper.id} className="flex items-center space-x-2">
+                  <Controller
+                    name="whitepapers"
+                    control={control}
+                    defaultValue={[]}
+                    render={({ field }) => (
+                      <Checkbox
+                        id={whitepaper.id}
+                        checked={field.value?.includes(whitepaper.id)}
+                        onCheckedChange={(checked) => {
+                          const updatedValue = checked
+                            ? [...(field.value || []), whitepaper.id]
+                            : (field.value || []).filter((value: string) => value !== whitepaper.id);
+                          field.onChange(updatedValue);
+                        }}
+                      />
+                    )}
+                  />
+                  <Label htmlFor={whitepaper.id}>{whitepaper.label}</Label>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-4 pt-4 border-t">
+              <div className="flex items-center space-x-2">
                 <Controller
-                  name="whitepapers"
+                  name="subscribeNewsletter"
                   control={control}
-                  defaultValue={[]}
-                  render={({ field }) => (
+                  defaultValue={false}
+                  render={({ field: { value, onChange } }) => (
                     <Checkbox
-                      id={whitepaper.id}
-                      checked={field.value?.includes(whitepaper.id)}
+                      id="newsletter"
+                      checked={value}
                       onCheckedChange={(checked) => {
-                        const updatedValue = checked
-                          ? [...field.value, whitepaper.id]
-                          : field.value?.filter((value: string) => value !== whitepaper.id);
-                        field.onChange(updatedValue);
+                        onChange(checked)
+                        if (!checked) {
+                          setValue('acceptTerms', false)
+                        }
                       }}
                     />
                   )}
                 />
-                <Label htmlFor={whitepaper.id}>{whitepaper.label}</Label>
+                <Label htmlFor="newsletter">
+                  Subscribe to our newsletter for AI and technology updates
+                </Label>
               </div>
-            ))}
+
+              <div 
+                className={`flex items-center space-x-2 transition-all duration-300 ${
+                  subscribeNewsletter ? 'opacity-100 h-auto' : 'opacity-0 h-0 overflow-hidden'
+                }`}
+              >
+                <Controller
+                  name="acceptTerms"
+                  control={control}
+                  defaultValue={false}
+                  render={({ field: { value, onChange } }) => (
+                    <Checkbox
+                      id="terms"
+                      checked={value}
+                      onCheckedChange={onChange}
+                    />
+                  )}
+                />
+                <Label htmlFor="terms">
+                  I agree to receive newsletter emails and accept the{' '}
+                  <a href="/privacy" className="text-blue-600 hover:underline">
+                    privacy policy
+                  </a>
+                </Label>
+              </div>
+
+              {errors.acceptTerms && subscribeNewsletter && (
+                <p className="text-red-500 text-sm">
+                  {errors.acceptTerms.message}
+                </p>
+              )}
+            </div>
           </div>
         )
       default:
@@ -185,7 +295,9 @@ export default function Contact() {
   return (
     <section id="contact" className="py-20 bg-gradient-light min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Get Your Custom AI Whitepapers & Analysis</h2>
+        <h2 className="text-3xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+          Get Your Custom AI Whitepapers & Analysis
+        </h2>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -194,7 +306,10 @@ export default function Contact() {
         >
           <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
             <CardContent className="p-6">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form 
+                onSubmit={handleSubmit(onSubmit)} 
+                className="space-y-6"
+              >
                 <AnimatePresence mode="wait">
                   {!submitSuccess ? (
                     <motion.div
@@ -204,7 +319,9 @@ export default function Contact() {
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <h3 className="text-2xl font-semibold mb-4">{steps[currentStep].question}</h3>
+                      <h3 className="text-2xl font-semibold mb-4">
+                        {steps[currentStep].question}
+                      </h3>
                       {renderFormField(steps[currentStep])}
                       {errors[steps[currentStep].field as keyof FormData] && (
                         <p className="text-red-500 text-sm mt-2">
@@ -218,11 +335,20 @@ export default function Contact() {
                           </Button>
                         )}
                         {currentStep < steps.length - 1 ? (
-                          <Button type="button" className="ml-auto" onClick={nextStep}>
+                          <Button 
+                            type="button" 
+                            className="ml-auto" 
+                            onClick={nextStep}
+                          >
                             Next <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         ) : (
-                          <Button type="submit" className="ml-auto button-gradient text-white" disabled={isSubmitting}>
+                          <Button 
+                            type="submit" 
+                            className="ml-auto button-gradient text-white" 
+                            disabled={isSubmitting}
+                            onClick={() => console.log('Submit button clicked')} // Debug log
+                          >
                             {isSubmitting ? (
                               <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -243,7 +369,9 @@ export default function Contact() {
                       className="text-center"
                     >
                       <CheckCircle2 className="mx-auto h-16 w-16 text-green-500 mb-4" />
-                      <h3 className="text-2xl font-semibold mb-2">Thank you for reaching out!</h3>
+                      <h3 className="text-2xl font-semibold mb-2">
+                        Thank you for reaching out!
+                      </h3>
                       <p className="text-gray-600">
                         We'll review your information and get back to you within 48 hours with a custom AI analysis for your company.
                       </p>
@@ -261,7 +389,7 @@ export default function Contact() {
               <motion.div
                 className="h-full bg-blue-600"
                 initial={{ width: 0 }}
-                animate={{ width: `${currentProgress}%` }}
+                animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
                 transition={{ duration: 0.3 }}
               />
             </div>
