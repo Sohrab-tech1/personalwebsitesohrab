@@ -28,7 +28,7 @@ export default function PrivacyPolicy() {
             <p>
               For complete details about how we handle your data, please refer to the full Heartspace Privacy Policy at 
               <a href="https://heartspace.ai/privacy-policy" className="text-blue-600 hover:underline ml-1">
-                heartspace.ai/privacy
+                heartspace.ai/privacy-policy
               </a>
             </p>
           </section>
