@@ -123,7 +123,10 @@ export default function Contact() {
             name={step.field as keyof FormData}
             control={control}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select 
+                onValueChange={field.onChange} 
+                value={field.value?.toString()} // Convert potential array to string
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder={step.placeholder} />
                 </SelectTrigger>
