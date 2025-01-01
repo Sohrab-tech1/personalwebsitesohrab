@@ -2,25 +2,22 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Menu, X, ExternalLink as ExternalLinkIcon } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ExternalLink } from 'lucide-react'
 
 interface NavItem {
-  id: string;
-  label: string;
-  href?: string;
-  isExternal?: boolean;
+  id: string
+  label: string
+  href?: string
+  isExternal?: boolean
 }
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
-  
-  const pathname = usePathname()
-  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,23 +27,11 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleNavigation = (item: NavItem) => {
+  const scrollTo = (id: string) => {
     setIsMobileMenuOpen(false)
-    
-    if (item.isExternal && item.href) {
-      router.push(item.href)
-      return
-    }
-
-    if (pathname === '/') {
-      // On homepage, use smooth scroll
-      const element = document.getElementById(item.id)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-    } else {
-      // On other pages, navigate to homepage with hash
-      router.push(`/#${item.id}`)
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
@@ -86,11 +71,11 @@ export default function Header() {
                     className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors group"
                   >
                     {item.label}
-                    <ExternalLinkIcon className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 ) : (
                   <button
-                    onClick={() => handleNavigation(item)}
+                    onClick={() => scrollTo(item.id)}
                     className="text-gray-600 hover:text-blue-600 transition-colors"
                   >
                     {item.label}
@@ -146,11 +131,11 @@ export default function Header() {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.label}
-                      <ExternalLinkIcon className="h-3 w-3" />
+                      <ExternalLink className="h-3 w-3" />
                     </Link>
                   ) : (
                     <button
-                      onClick={() => handleNavigation(item)}
+                      onClick={() => scrollTo(item.id)}
                       className="py-2 text-gray-600 hover:text-blue-600 transition-colors w-full text-left"
                     >
                       {item.label}

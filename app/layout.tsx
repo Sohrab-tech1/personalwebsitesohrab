@@ -22,10 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.className} antialiased bg-background text-foreground`}>
-        <Header />
+        {/* Header component for site navigation */}
+        <Header></Header>
         {children}
-        <Footer />
-        <BackToTop />
+        {/* Footer component for site footer */}
+        <Footer></Footer>
+        {/* Back to top button component */}
+        <BackToTop></BackToTop>
+        {/* Vercel Speed Insights for performance monitoring */}
         <SpeedInsights />
         <Analytics />
         <CookieBanner />
