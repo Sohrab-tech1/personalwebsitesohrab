@@ -4,6 +4,8 @@ import { getPostBySlug, getAllPosts } from '@/lib/blog'
 import Image from 'next/image'
 import { CalendarDays, Clock, Tag } from 'lucide-react'
 import RelatedPosts from '@/components/blog/related-posts'
+import { BlogImage } from '@/components/blog/blog-image'
+import { getPlaceholderImage } from '@/lib/placeholder-image'
 
 interface BlogPostPageProps {
   params: {
@@ -52,22 +54,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound()
   }
 
+  const imageUrl = post.image && post.image.startsWith('/') 
+    ? post.image  // Use the actual image if it exists
+    : getPlaceholderImage(post.title)
+
   return (
     <article className="min-h-screen py-12 bg-gradient-light">
       <div className="container mx-auto px-4">
         {/* Hero Section */}
         <header className="max-w-4xl mx-auto mb-12">
-          {post.image && (
-            <div className="relative h-[400px] w-full mb-8 rounded-xl overflow-hidden">
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          )}
+          <BlogImage
+            src={imageUrl}
+            alt={post.title}
+            className="mb-8"
+          />
           
           <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
             {post.title}

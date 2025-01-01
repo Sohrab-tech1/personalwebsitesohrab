@@ -7,7 +7,7 @@ category: "AI"
 tags: ["AI", "PR", "Technology", "Content Creation"]
 readTime: "5 min"
 featured: true
-image: "/blog/ai-pr-transformation.jpg"
+image: "/images/ai-pr-transformation.jpg"
 ---
 
 # How AI is Transforming PR in 2025
