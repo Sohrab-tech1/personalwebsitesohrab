@@ -1,6 +1,6 @@
 ---
-title: "How AI is Transforming PR in 2024"
-date: "2024-03-20"
+title: "How AI is Transforming PR in 2025"
+date: "2025-01-01"
 excerpt: "Discover how artificial intelligence is revolutionizing public relations, from automated content generation to predictive analytics and personalized media outreach."
 author: "Sohrab Fadai"
 category: "AI"
@@ -10,9 +10,9 @@ featured: true
 image: "/blog/ai-pr-transformation.jpg"
 ---
 
-# How AI is Transforming PR in 2024
+# How AI is Transforming PR in 2025
 
-The landscape of public relations is undergoing a dramatic transformation, driven by advances in artificial intelligence. As we navigate through 2024, the integration of AI tools and technologies is not just enhancing PR practices—it's revolutionizing them.
+The landscape of public relations is undergoing a dramatic transformation, driven by advances in artificial intelligence. As we navigate through 2025, the integration of AI tools and technologies is not just enhancing PR practices—it's revolutionizing them.
 
 ## The Rise of AI-Powered Content Creation
 

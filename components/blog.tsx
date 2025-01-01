@@ -17,8 +17,8 @@ const BlogSection: FC = () => {
     {
       title: "How AI is Transforming PR in 2025",
       excerpt: "Discover the latest AI trends reshaping public relations...",
-      date: "2024-03-20",
-      slug: "ai-transforming-pr-2024",
+      date: "2025-01-01",
+      slug: "ai-transforming-pr-2025",
       readTime: "5 min",
       category: "AI"
     },
