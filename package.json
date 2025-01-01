@@ -20,6 +20,8 @@
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "@types/unsplash-js": "^7.0.0",
+    "@vercel/analytics": "^1.4.1",
+    "@vercel/speed-insights": "^1.1.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
