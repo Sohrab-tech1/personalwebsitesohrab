@@ -3,53 +3,81 @@
 import { type FC } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
+import { type Language } from '@/lib/i18n/dictionaries'
 
-// Types
-interface Skill {
-  category: string
-  items: string[]
-}
-
-interface SkillsProps {
-  className?: string
-}
-
-// Constants
-const skills: Skill[] = [
-  {
-    category: "Technical Skills",
-    items: [
-      "AI & Machine Learning",
-      "Full-Stack Development",
-      "Cloud Architecture",
-      "System Design",
-      "API Development",
-      "DevOps & CI/CD"
+// Content translations
+const content = {
+  en: {
+    title: "Skills & Expertise",
+    categories: [
+      {
+        title: "AI & Machine Learning",
+        skills: [
+          "Large Language Models",
+          "Natural Language Processing",
+          "AI Strategy & Implementation",
+          "Prompt Engineering",
+          "AI Ethics & Governance"
+        ]
+      },
+      {
+        title: "Software Development",
+        skills: [
+          "Full-Stack Development",
+          "Cloud Architecture",
+          "API Design",
+          "System Integration",
+          "DevOps & CI/CD"
+        ]
+      },
+      {
+        title: "Business & Strategy",
+        skills: [
+          "Tech Leadership",
+          "Product Strategy",
+          "Team Management",
+          "Stakeholder Communication",
+          "Growth Strategy"
+        ]
+      }
     ]
   },
-  {
-    category: "Business & Leadership",
-    items: [
-      "Strategic Planning",
-      "Team Leadership",
-      "Product Management",
-      "Business Development",
-      "Stakeholder Management",
-      "Public Relations"
-    ]
-  },
-  {
-    category: "Industry Knowledge",
-    items: [
-      "Clean Technology",
-      "Sustainability",
-      "Content Marketing",
-      "PR & Communications",
-      "Startup Ecosystem",
-      "Venture Capital"
+  sv: {
+    title: "Kompetenser & Expertis",
+    categories: [
+      {
+        title: "AI & Maskininlärning",
+        skills: [
+          "Stora Språkmodeller",
+          "Naturlig Språkbehandling",
+          "AI-strategi & Implementering",
+          "Prompt Engineering",
+          "AI-etik & Styrning"
+        ]
+      },
+      {
+        title: "Mjukvaruutveckling",
+        skills: [
+          "Full-Stack Utveckling",
+          "Molnarkitektur",
+          "API-design",
+          "Systemintegration",
+          "DevOps & CI/CD"
+        ]
+      },
+      {
+        title: "Affärer & Strategi",
+        skills: [
+          "Tekniskt Ledarskap",
+          "Produktstrategi",
+          "Teamledning",
+          "Intressentkommunikation",
+          "Tillväxtstrategi"
+        ]
+      }
     ]
   }
-]
+}
 
 // Animation variants
 const containerVariants = {
@@ -57,7 +85,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15
+      staggerChildren: 0.2
     }
   }
 }
@@ -67,12 +95,17 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
-const Skills: FC<SkillsProps> = ({ className }) => {
+interface SkillsProps {
+  className?: string
+  lang: Language
+}
+
+const Skills: FC<SkillsProps> = ({ className, lang }) => {
   return (
     <section 
       id="skills" 
-      className="py-24 bg-gradient-to-b from-white to-gray-50"
-      aria-label="Professional Skills"
+      className="py-24 bg-white"
+      aria-label="Skills and Expertise"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -83,42 +116,29 @@ const Skills: FC<SkillsProps> = ({ className }) => {
         >
           <motion.div variants={itemVariants}>
             <h2 className="text-4xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-              Skills & Expertise
+              {content[lang].title}
             </h2>
             <div className="w-20 h-1 bg-blue-600 mx-auto mb-12 rounded-full" />
           </motion.div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
-            {skills.map((skillSet, index) => (
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {content[lang].categories.map((category, index) => (
               <motion.div
-                key={`skill-${index}`}
+                key={category.title}
                 variants={itemVariants}
-                className="flex"
               >
-                <Card className="w-full hover:shadow-lg transition-shadow duration-300 bg-white/80 backdrop-blur-sm">
+                <Card className="h-full hover:shadow-lg transition-shadow duration-300">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                      {skillSet.category}
+                      {category.title}
                     </h3>
                     <ul className="space-y-2">
-                      {skillSet.items.map((skill, skillIndex) => (
+                      {category.skills.map((skill, skillIndex) => (
                         <li 
-                          key={`${skill}-${skillIndex}`}
-                          className="flex items-center text-gray-700"
+                          key={skill}
+                          className="text-gray-700 flex items-center"
                         >
-                          <svg
-                            className="w-4 h-4 mr-2 text-blue-600 flex-shrink-0"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
+                          <span className="w-2 h-2 bg-blue-600 rounded-full mr-2" />
                           {skill}
                         </li>
                       ))}
