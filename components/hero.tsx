@@ -85,7 +85,7 @@ const Hero: FC<HeroProps> = ({ className }) => {
               className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 leading-relaxed text-gray-700"
               variants={itemVariants}
             >
-              Built the cleantech ghostwriter that never sleeps. Founder, CTO and Co-CEO at Heartspace, creating AI-powered content for fast-growing scale-ups.
+              Built the cleantech ghostwriter that never sleeps. Founder, CTO and Co-CEO at Heartspace, creating AI-powered content for fast-growing scale-ups. Sharing my learnings for free in my whitepapers.
             </motion.p>
             <motion.div variants={itemVariants}>
               <Button 
@@ -94,7 +94,7 @@ const Hero: FC<HeroProps> = ({ className }) => {
                 onClick={handleContactClick}
                 aria-label="Contact Sohrab Fadai"
               >
-                Get in Touch
+                Download free whitepaper
               </Button>
             </motion.div>
           </motion.div>

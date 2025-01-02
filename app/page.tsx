@@ -10,6 +10,7 @@ import Whitepapers from '@/components/whitepapers'
 import Contact from '@/components/contact'
 import BlogSection from '@/components/blog'
 import { CookieBanner } from '@/components/cookie-consent/CookieBanner'
+import ServicesPage from '@/components/services/services-page'
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <Whitepapers />
         <Contact />
         <BlogSection />
+        <ServicesPage />
       </main>
       <CookieBanner />
     </div>

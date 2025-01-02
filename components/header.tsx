@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 
@@ -13,6 +13,7 @@ interface NavItem {
   label: string
   href?: string
   isExternal?: boolean
+  items?: NavItem[]
 }
 
 export default function Header() {
@@ -32,10 +33,17 @@ export default function Header() {
 
   const scrollTo = (id: string) => {
     setIsMobileMenuOpen(false)
+    
+    if (id === 'services') {
+      window.location.href = '/services'
+      return
+    }
+
     if (!isHomePage) {
       window.location.href = `/#${id}`
       return
     }
+    
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -44,14 +52,32 @@ export default function Header() {
 
   const navigationItems: NavItem[] = [
     { id: 'about', label: 'About' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
-    { 
-      id: 'blog', 
-      label: 'Latest Insights',
-      href: '/blog',
-      isExternal: true 
+    {
+      id: 'work',
+      label: 'Work',
+      items: [
+        { id: 'experience', label: 'Experience' },
+        { id: 'skills', label: 'Skills' },
+        { id: 'projects', label: 'Projects' },
+      ]
+    },
+    {
+      id: 'resources',
+      label: 'Resources',
+      items: [
+        { 
+          id: 'blog', 
+          label: 'Latest Insights',
+          href: '/blog',
+          isExternal: true 
+        },
+        { 
+          id: 'services', 
+          label: 'Services',
+          href: '/services',
+          isExternal: true 
+        },
+      ]
     },
     { id: 'contact', label: 'Contact' }
   ]
@@ -72,7 +98,12 @@ export default function Header() {
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
               >
-                {item.isExternal ? (
+                {item.items ? (
+                  <button className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors">
+                    {item.label}
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
+                ) : item.isExternal ? (
                   <Link
                     href={item.href || '#'}
                     className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors group"
@@ -89,27 +120,43 @@ export default function Header() {
                   </button>
                 )}
                 
-                {/* Hover Preview */}
+                {/* Dropdown Menu */}
                 <AnimatePresence>
-                  {hoveredItem === item.id && item.isExternal && (
+                  {hoveredItem === item.id && item.items && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute top-full mt-2 -left-4 bg-white rounded-lg shadow-lg p-2 min-w-[200px] text-sm"
+                      className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2"
                     >
-                      <div className="text-gray-600">
-                        <p className="font-medium mb-1">Latest Insights</p>
-                        <p className="text-xs text-gray-500">
-                          Read our latest articles and insights about AI, technology, and business.
-                        </p>
-                      </div>
+                      {item.items.map((subItem) => (
+                        <div key={subItem.id} className="px-4 py-2">
+                          {subItem.isExternal ? (
+                            <Link
+                              href={subItem.href || '#'}
+                              className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors group"
+                            >
+                              {subItem.label}
+                              <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                          ) : (
+                            <button
+                              onClick={() => scrollTo(subItem.id)}
+                              className="text-gray-600 hover:text-blue-600 transition-colors w-full text-left"
+                            >
+                              {subItem.label}
+                            </button>
+                          )}
+                        </div>
+                      ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
             ))}
           </nav>
+          
+          {/* Mobile Menu Button */}
           <Button
             className="lg:hidden"
             variant="ghost"
@@ -120,6 +167,8 @@ export default function Header() {
           </Button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -130,11 +179,38 @@ export default function Header() {
           >
             <nav className="flex flex-col p-4">
               {navigationItems.map((item) => (
-                <div key={item.id} className="relative">
-                  {item.isExternal ? (
+                <div key={item.id} className="py-2">
+                  {item.items ? (
+                    <>
+                      <div className="font-medium text-gray-800 mb-2">{item.label}</div>
+                      <div className="pl-4 space-y-2">
+                        {item.items.map((subItem) => (
+                          <div key={subItem.id}>
+                            {subItem.isExternal ? (
+                              <Link
+                                href={subItem.href || '#'}
+                                className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                {subItem.label}
+                                <ExternalLink className="h-3 w-3" />
+                              </Link>
+                            ) : (
+                              <button
+                                onClick={() => scrollTo(subItem.id)}
+                                className="text-gray-600 hover:text-blue-600 transition-colors w-full text-left"
+                              >
+                                {subItem.label}
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : item.isExternal ? (
                     <Link
                       href={item.href || '#'}
-                      className="flex items-center gap-1 py-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.label}
@@ -143,7 +219,7 @@ export default function Header() {
                   ) : (
                     <button
                       onClick={() => scrollTo(item.id)}
-                      className="py-2 text-gray-600 hover:text-blue-600 transition-colors w-full text-left"
+                      className="text-gray-600 hover:text-blue-600 transition-colors w-full text-left"
                     >
                       {item.label}
                     </button>
@@ -157,4 +233,3 @@ export default function Header() {
     </header>
   )
 }
-
