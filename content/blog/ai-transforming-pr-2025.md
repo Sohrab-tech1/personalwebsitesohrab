@@ -1,8 +1,8 @@
 ---
 title: "How AI is Transforming PR in 2025"
 date: "2025-01-01"
-excerpt: "Discover how artificial intelligence is revolutionizing public relations, from automated content generation to predictive analytics and personalized media outreach."
-author: "Sohrab Fadai"
+excerpt: "Discover how artificial intelligence is revolutionizing public relations..."
+authorSlug: "sohrab-fadai"
 category: "AI"
 tags: ["AI", "PR", "Technology", "Content Creation"]
 readTime: "5 min"

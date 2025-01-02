@@ -10,14 +10,15 @@ export const PostSchema = z.object({
   title: z.string(),
   date: z.string(),
   excerpt: z.string(),
-  author: z.string(),
-  category: z.enum(['AI', 'Technology', 'Business', 'PR']),
+  authorSlug: z.string().default('sohrab-fadai'),
+  author: z.string().optional(),
+  category: z.string(),
   tags: z.array(z.string()),
+  readTime: z.string(),
+  featured: z.boolean().optional().default(false),
+  image: z.string().optional(),
   slug: z.string(),
   content: z.string(),
-  readTime: z.string(),
-  featured: z.boolean().optional(),
-  image: z.string().optional(),
 })
 
 export type Post = z.infer<typeof PostSchema>
@@ -54,15 +55,18 @@ export async function getAllPosts(): Promise<Post[]> {
           ...data,
           slug,
           content: contentHtml,
+          authorSlug: data.authorSlug || 'sohrab-fadai',
         })
       })
   )
 
   // Sort posts by date
-  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1))
+  return allPostsData.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime()
+  })
 }
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
+export async function getBlogPost(slug: string): Promise<Post | null> {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.md`)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
@@ -77,9 +81,10 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       ...data,
       slug,
       content: contentHtml,
+      authorSlug: data.authorSlug || 'sohrab-fadai',
     })
   } catch (error) {
-    console.error(`Error getting post ${slug}:`, error)
+    console.error(`Error getting blog post ${slug}:`, error)
     return null
   }
 }
