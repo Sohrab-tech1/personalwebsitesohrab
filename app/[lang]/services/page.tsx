@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: ServicesProps): Promise<Metad
 
 export default function Services({ params: { lang } }: ServicesProps) {
   const dictionary = dictionaries[lang]
-  return <ServicesPage dictionary={dictionary.services} />
+  return <ServicesPage lang={lang} />
 }
 
 export async function generateStaticParams() {

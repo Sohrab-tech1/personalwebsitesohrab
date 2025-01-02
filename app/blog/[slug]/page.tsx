@@ -22,13 +22,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 
   return {
-    title: `${post.title} | Sohrab Fadai`,
-    description: post.excerpt,
+    title: `${post.translations[lang].title} | Sohrab Fadai`,
+    description: post.translations[lang].excerpt,
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: post.translations[lang].title,
+      description: post.translations[lang].excerpt,
       type: 'article',
-      publishedTime: post.date,
+      publishedTime: post.translations[lang].date,
       authors: ['Sohrab Fadai'],
       images: post.image ? [post.image] : [],
     },

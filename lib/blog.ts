@@ -4,27 +4,35 @@ import path from 'path'
 import matter from 'gray-matter'
 import { remark } from 'remark'
 import html from 'remark-html'
+import { type Language } from './i18n/dictionaries'
 
 // Types
-export const PostSchema = z.object({
+const TranslatedPostSchema = z.object({
   title: z.string(),
-  date: z.string(),
   excerpt: z.string(),
   author: z.string(),
   category: z.enum(['AI', 'Technology', 'Business', 'PR']),
   tags: z.array(z.string()),
-  slug: z.string(),
-  content: z.string(),
   readTime: z.string(),
+})
+
+export const PostSchema = z.object({
+  translations: z.object({
+    en: TranslatedPostSchema,
+    sv: TranslatedPostSchema,
+  }),
+  date: z.string(),
   featured: z.boolean().optional(),
   image: z.string().optional(),
+  slug: z.string(),
+  content: z.string(),
 })
 
 export type Post = z.infer<typeof PostSchema>
 
 const postsDirectory = path.join(process.cwd(), 'content/blog')
 
-export async function getAllPosts(): Promise<Post[]> {
+export async function getAllPosts(lang: Language): Promise<Post[]> {
   // Ensure directory exists
   if (!fs.existsSync(postsDirectory)) {
     fs.mkdirSync(postsDirectory, { recursive: true })
@@ -62,7 +70,7 @@ export async function getAllPosts(): Promise<Post[]> {
   return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1))
 }
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
+export async function getPostBySlug(slug: string, lang: Language): Promise<Post | null> {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.md`)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
@@ -84,12 +92,12 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   }
 }
 
-export async function getFeaturedPosts(): Promise<Post[]> {
-  const allPosts = await getAllPosts()
+export async function getFeaturedPosts(lang: Language): Promise<Post[]> {
+  const allPosts = await getAllPosts(lang)
   return allPosts.filter(post => post.featured)
 }
 
-export async function getPostsByCategory(category: Post['category']): Promise<Post[]> {
-  const allPosts = await getAllPosts()
-  return allPosts.filter(post => post.category === category)
+export async function getPostsByCategory(category: Post['translations'][Language]['category'], lang: Language): Promise<Post[]> {
+  const allPosts = await getAllPosts(lang)
+  return allPosts.filter(post => post.translations[lang].category === category)
 } 

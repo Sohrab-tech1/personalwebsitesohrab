@@ -14,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Loader2, ArrowRight, CheckCircle2 } from 'lucide-react'
 import confetti from 'canvas-confetti'
+import { type Language } from '@/lib/i18n/dictionaries'
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -60,6 +61,64 @@ const steps = [
   { field: 'challenge', question: "What's your specific AI challenge or pain point?", placeholder: "Describe your challenge" },
   { field: 'whitepapers', question: "Which whitepapers are you interested in?", placeholder: "Select whitepapers" },
 ]
+
+// Content translations
+const content = {
+  en: {
+    title: "Get Your Custom AI Whitepapers & Analysis",
+    success: {
+      title: "Thank you for reaching out!",
+      message: "We'll review your information and get back to you within 48 hours with a custom AI analysis for your company."
+    },
+    steps: [
+      { question: "What's your name?", field: "name", placeholder: "Full name" },
+      { question: "What's your email?", field: "email", placeholder: "Work email" },
+      { question: "Where do you work?", field: "company", placeholder: "Company name" },
+      { question: "What industry are you in?", field: "industry", placeholder: "Select your industry" },
+      { question: "What's your AI goal?", field: "aiGoal", placeholder: "Select your primary goal" },
+      { question: "What's your biggest challenge?", field: "challenge", placeholder: "Describe your main challenge..." },
+      { question: "Which whitepapers interest you?", field: "whitepapers", placeholder: "Select whitepapers" }
+    ],
+    newsletter: {
+      subscribe: "Subscribe to our newsletter for AI and technology updates",
+      terms: "I agree to receive newsletter emails and accept the",
+      privacy: "privacy policy"
+    },
+    buttons: {
+      back: "Back",
+      next: "Next",
+      submit: "Get My Whitepapers",
+      sending: "Sending..."
+    }
+  },
+  sv: {
+    title: "Få Dina Skräddarsydda AI-Whitepapers & Analys",
+    success: {
+      title: "Tack för din förfrågan!",
+      message: "Vi kommer att granska din information och återkomma inom 48 timmar med en anpassad AI-analys för ditt företag."
+    },
+    steps: [
+      { question: "Vad heter du?", field: "name", placeholder: "Fullständigt namn" },
+      { question: "Vad är din e-post?", field: "email", placeholder: "Arbets-e-post" },
+      { question: "Var jobbar du?", field: "company", placeholder: "Företagsnamn" },
+      { question: "Vilken bransch är du i?", field: "industry", placeholder: "Välj din bransch" },
+      { question: "Vad är ditt AI-mål?", field: "aiGoal", placeholder: "Välj ditt primära mål" },
+      { question: "Vad är din största utmaning?", field: "challenge", placeholder: "Beskriv din huvudutmaning..." },
+      { question: "Vilka whitepapers intresserar dig?", field: "whitepapers", placeholder: "Välj whitepapers" }
+    ],
+    newsletter: {
+      subscribe: "Prenumerera på vårt nyhetsbrev för AI- och teknikuppdateringar",
+      terms: "Jag godkänner att ta emot nyhetsbrev och accepterar",
+      privacy: "integritetspolicyn"
+    },
+    buttons: {
+      back: "Tillbaka",
+      next: "Nästa",
+      submit: "Få Mina Whitepapers",
+      sending: "Skickar..."
+    }
+  }
+}
 
 export default function Contact() {
   const [currentStep, setCurrentStep] = useState(0)
@@ -296,7 +355,7 @@ export default function Contact() {
     <section id="contact" className="py-20 bg-gradient-light min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-          Get Your Custom AI Whitepapers & Analysis
+          {content[language].title}
         </h2>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -331,7 +390,7 @@ export default function Contact() {
                       <div className="flex justify-between mt-6">
                         {currentStep > 0 && (
                           <Button type="button" variant="outline" onClick={prevStep}>
-                            Back
+                            {content[language].buttons.back}
                           </Button>
                         )}
                         {currentStep < steps.length - 1 ? (
@@ -340,7 +399,7 @@ export default function Contact() {
                             className="ml-auto" 
                             onClick={nextStep}
                           >
-                            Next <ArrowRight className="ml-2 h-4 w-4" />
+                            {content[language].buttons.next} <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         ) : (
                           <Button 
@@ -352,10 +411,10 @@ export default function Contact() {
                             {isSubmitting ? (
                               <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Sending...
+                                {content[language].buttons.sending}
                               </>
                             ) : (
-                              'Get My Whitepapers'
+                              content[language].buttons.submit
                             )}
                           </Button>
                         )}
@@ -370,10 +429,10 @@ export default function Contact() {
                     >
                       <CheckCircle2 className="mx-auto h-16 w-16 text-green-500 mb-4" />
                       <h3 className="text-2xl font-semibold mb-2">
-                        Thank you for reaching out!
+                        {content[language].success.title}
                       </h3>
                       <p className="text-gray-600">
-                        We'll review your information and get back to you within 48 hours with a custom AI analysis for your company.
+                        {content[language].success.message}
                       </p>
                     </motion.div>
                   )}
