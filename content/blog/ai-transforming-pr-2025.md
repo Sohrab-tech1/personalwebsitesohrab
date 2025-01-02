@@ -8,6 +8,9 @@ tags: ["AI", "PR", "Technology", "Content Creation"]
 readTime: "5 min"
 featured: true
 image: "/images/ai-pr-transformation.jpg"
+authorImage: "/images/sohrabportrait.jpg"
+authorBio: "Founder & entrepreneur with a passion for building AI solutions."
+authorSlug: "sohrab-fadai"
 ---
 
 # How AI is Transforming PR in 2025

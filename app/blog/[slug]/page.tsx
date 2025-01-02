@@ -2,11 +2,12 @@ import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPostBySlug, getAllPosts } from '@/lib/blog'
 import Image from 'next/image'
-import { CalendarDays, Clock, Tag } from 'lucide-react'
+import { CalendarDays, Clock, Share, Tag } from 'lucide-react'
 import RelatedPosts from '@/components/blog/related-posts'
 import { BlogImage } from '@/components/blog/blog-image'
 import { getPlaceholderImage } from '@/lib/placeholder-image'
-
+import { AuthorCard } from '@/components/blog/author-card'
+import { getAuthor } from '@/lib/authors'
 interface BlogPostPageProps {
   params: {
     slug: string
@@ -57,6 +58,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const imageUrl = post.image && post.image.startsWith('/') 
     ? post.image  // Use the actual image if it exists
     : getPlaceholderImage(post.title)
+
+  const author = getAuthor(post.author)
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${params.slug}`
 
   return (
     <article className="min-h-screen py-12 bg-gradient-light">
@@ -118,8 +122,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* Add Related Posts */}
           <RelatedPosts currentPost={post} posts={allPosts} />
+
+          <AuthorCard author={author} />
+          
+          <div className="mt-8">
+          </div>
         </div>
       </div>
-    </article>
+    </article> 
   )
 } 
