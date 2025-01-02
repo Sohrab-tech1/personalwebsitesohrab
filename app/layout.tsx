@@ -7,7 +7,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/next';
 import { CookieBanner } from '@/components/cookie-consent/CookieBanner'
 import { Metadata } from 'next'
-import { Toaster } from '@/components/ui/toaster'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -46,14 +45,6 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased bg-background text-foreground`}>
         {/* Header component for site navigation */}
         <Header></Header>
-        {/* Step 1: Facebook SDK */}
-        <div id="fb-root" />
-        <script 
-          async 
-          defer 
-          crossOrigin="anonymous" 
-          src="https://connect.facebook.net/sv_SE/sdk.js#xfbml=1&version=v21.0"
-        />
         {children}
         {/* Footer component for site footer */}
         <Footer></Footer>
@@ -63,7 +54,6 @@ export default function RootLayout({
         <SpeedInsights />
         <Analytics />
         <CookieBanner />
-        <Toaster />
       </body>
     </html>
   )
