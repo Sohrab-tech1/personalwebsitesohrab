@@ -4,14 +4,30 @@ import { type FC } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
+import { type Language } from '@/lib/i18n/dictionaries'
 
 // Constants
 const HERO_IMAGE_URL = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sohrab%20bild.jpg-G5oEUbPlJzGUJldrtfyUNqDiixx9BI.jpeg'
 const BLUR_DATA_URL = 'data:image/jpeg;base64,...' // Add your base64 blur image
 
+// Content translations
+const content = {
+  en: {
+    title: "Sohrab Fadai",
+    description: "Built the cleantech ghostwriter that never sleeps. Founder, CTO and Co-CEO at Heartspace, creating AI-powered content for fast-growing scale-ups. Sharing my learnings for free in my whitepapers.",
+    cta: "Download free whitepaper"
+  },
+  sv: {
+    title: "Sohrab Fadai",
+    description: "Byggde världens första spökskrivare som aldrig sover. Grundare och CTO på Heartspace, skapar AI-drivet innehåll för snabbväxande scale-ups. Delar mina lärdomar gratis i mina nedladdningsbara guider.",
+    cta: "Ladda ner gratis guide"
+  }
+}
+
 // Types
 interface HeroProps {
   className?: string
+  lang: Language
 }
 
 // Animation variants
@@ -30,7 +46,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
-const Hero: FC<HeroProps> = ({ className }) => {
+const Hero: FC<HeroProps> = ({ className, lang }) => {
   // Handlers
   const handleContactClick = () => {
     const contactSection = document.getElementById('contact')
@@ -57,7 +73,7 @@ const Hero: FC<HeroProps> = ({ className }) => {
             <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl">
               <Image
                 src={HERO_IMAGE_URL}
-                alt="Sohrab Fadai - Founder, CTO and Co-CEO at Heartspace"
+                alt={`Sohrab Fadai - ${lang === 'sv' ? 'Grundare, CTO och Co-VD på Heartspace' : 'Founder, CTO and Co-CEO at Heartspace'}`}
                 fill
                 priority
                 quality={90}
@@ -79,22 +95,22 @@ const Hero: FC<HeroProps> = ({ className }) => {
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600"
               variants={itemVariants}
             >
-              Sohrab Fadai
+              {content[lang].title}
             </motion.h1>
             <motion.p 
               className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 leading-relaxed text-gray-700"
               variants={itemVariants}
             >
-              Built the cleantech ghostwriter that never sleeps. Founder, CTO and Co-CEO at Heartspace, creating AI-powered content for fast-growing scale-ups.
+              {content[lang].description}
             </motion.p>
             <motion.div variants={itemVariants}>
               <Button 
                 size="lg" 
                 className="text-lg px-8 py-3 text-white button-gradient hover:scale-105 transition-transform duration-300"
                 onClick={handleContactClick}
-                aria-label="Contact Sohrab Fadai"
+                aria-label={content[lang].cta}
               >
-                Get in Touch
+                {content[lang].cta}
               </Button>
             </motion.div>
           </motion.div>

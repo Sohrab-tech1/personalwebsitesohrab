@@ -5,8 +5,22 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ExternalLink } from 'lucide-react'
+import { type Language } from '@/lib/i18n/dictionaries'
 
-export default function Header() {
+interface NavItem {
+  id: string
+  label: string
+  href?: string
+  isExternal?: boolean
+  items?: NavItem[]
+}
+
+interface HeaderProps {
+  lang: Language
+}
+
+export default function Header({ lang }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -20,11 +34,54 @@ export default function Header() {
 
   const scrollTo = (id: string) => {
     setIsMobileMenuOpen(false)
+    
+    if (id === 'services') {
+      window.location.href = `/${lang}/services`
+      return
+    }
+
+    if (!isHomePage) {
+      window.location.href = `/${lang}/#${id}`
+      return
+    }
+    
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
+
+  const navigationItems: NavItem[] = [
+    { id: 'about', label: lang === 'sv' ? 'Om' : 'About' },
+    {
+      id: 'work',
+      label: lang === 'sv' ? 'Arbete' : 'Work',
+      items: [
+        { id: 'experience', label: lang === 'sv' ? 'Erfarenhet' : 'Experience' },
+        { id: 'skills', label: lang === 'sv' ? 'Kompetenser' : 'Skills' },
+        { id: 'projects', label: lang === 'sv' ? 'Projekt' : 'Projects' },
+      ]
+    },
+    {
+      id: 'resources',
+      label: lang === 'sv' ? 'Resurser' : 'Resources',
+      items: [
+        { 
+          id: 'blog', 
+          label: lang === 'sv' ? 'Senaste Insikter' : 'Latest Insights',
+          href: `/${lang}/blog`,
+          isExternal: true 
+        },
+        { 
+          id: 'services', 
+          label: lang === 'sv' ? 'Tjänster' : 'Services',
+          href: `/${lang}/services`,
+          isExternal: true 
+        },
+      ]
+    },
+    { id: 'contact', label: lang === 'sv' ? 'Kontakt' : 'Contact' }
+  ]
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>

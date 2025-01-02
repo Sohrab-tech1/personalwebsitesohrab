@@ -9,8 +9,12 @@ import Projects from '@/components/projects'
 import Whitepapers from '@/components/whitepapers'
 import Contact from '@/components/contact'
 import BlogSection from '@/components/blog'
+import { CookieBanner } from '@/components/cookie-consent/CookieBanner'
+import ServicesPage from '@/components/services/services-page'
+import { dictionaries, type Language } from '@/lib/i18n/dictionaries'
 
 export default function Home() {
+  const dictionary = dictionaries['en']
   return (
     <div className="min-h-screen bg-background font-sans">
       <main>
@@ -23,6 +27,7 @@ export default function Home() {
         <Whitepapers />
         <Contact />
         <BlogSection />
+        <ServicesPage dictionary={dictionary.services} />
       </main>
     </div>
   )

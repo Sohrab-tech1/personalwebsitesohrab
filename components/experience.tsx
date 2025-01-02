@@ -3,46 +3,69 @@
 import { type FC } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
+import { type Language } from '@/lib/i18n/dictionaries'
 
-// Types
-interface Experience {
-  title: string
-  company: string
-  date: string
-  description: string
-}
-
-interface ExperienceProps {
-  className?: string
-}
-
-// Constants
-const experiences: Experience[] = [
-  {
-    title: "Founder, CTO and Co-CEO",
-    company: "Heartspace",
-    date: "August 2022 - Present",
-    description: "Leading the development of NirvanaAI, an AI-powered ghostwriter for CMOs in regulated industries like clean-tech. Reduced reliance on agencies and kept brands visible 24/7."
+// Content translations
+const content = {
+  en: {
+    title: "Experience",
+    experiences: [
+      {
+        title: "Founder, CTO and Co-CEO",
+        company: "Heartspace",
+        date: "August 2022 - Present",
+        description: "Leading the development of NirvanaAI, an AI-powered ghostwriter for CMOs in regulated industries like clean-tech. Reduced reliance on agencies and kept brands visible 24/7."
+      },
+      {
+        title: "Founder",
+        company: "Heartspace (PR Agency)",
+        date: "March 2021 - August 2022",
+        description: "Took Heartspace from 0 to 1MSEK in revenue, working with major brands and organizations while maintaining ethical standards. Specialized in sustainability-focused PR."
+      },
+      {
+        title: "PR Consultant",
+        company: "Westander",
+        date: "April 2020 - September 2020",
+        description: "Worked on media relations, opinion formation, and lobbying, specializing in labor market, entrepreneurship, and social sustainability issues."
+      },
+      {
+        title: "Regional Director of Operations",
+        company: "Företagarna",
+        date: "November 2013 - May 2018",
+        description: "Led opinion work towards decision-makers, presented reports, and served as regional spokesperson. Grew regional social media presence and produced member magazine 'Dalaföretagaren'."
+      }
+    ]
   },
-  {
-    title: "Founder",
-    company: "Heartspace (PR Agency)",
-    date: "March 2021 - August 2022",
-    description: "Took Heartspace from 0 to 1MSEK in revenue, working with major brands and organizations while maintaining ethical standards. Specialized in sustainability-focused PR."
-  },
-  {
-    title: "PR Consultant",
-    company: "Westander",
-    date: "April 2020 - September 2020",
-    description: "Worked on media relations, opinion formation, and lobbying, specializing in labor market, entrepreneurship, and social sustainability issues."
-  },
-  {
-    title: "Regional Director of Operations",
-    company: "Företagarna",
-    date: "November 2013 - May 2018",
-    description: "Led opinion work towards decision-makers, presented reports, and served as regional spokesperson. Grew regional social media presence and produced member magazine 'Dalaföretagaren'."
+  sv: {
+    title: "Erfarenhet",
+    experiences: [
+      {
+        title: "Grundare, CTO och Co-VD",
+        company: "Heartspace",
+        date: "Augusti 2022 - Nu",
+        description: "Leder utvecklingen av NirvanaAI, en AI-driven spökskrivare för marknadschefer i reglerade branscher som cleantech. Minskade beroendet av byråer och höll varumärken synliga dygnet runt."
+      },
+      {
+        title: "Grundare",
+        company: "Heartspace (PR-byrå)",
+        date: "Mars 2021 - Augusti 2022",
+        description: "Tog Heartspace från 0 till 1MSEK i omsättning, arbetade med stora varumärken och organisationer samtidigt som vi upprätthöll etiska standarder. Specialiserade oss på hållbarhetsfokuserad PR."
+      },
+      {
+        title: "PR-konsult",
+        company: "Westander",
+        date: "April 2020 - September 2020",
+        description: "Arbetade med medierelationer, opinionsbildning och lobbying, med specialisering inom arbetsmarknad, företagande och social hållbarhet."
+      },
+      {
+        title: "Regional Verksamhetschef",
+        company: "Företagarna",
+        date: "November 2013 - Maj 2018",
+        description: "Ledde opinionsarbete mot beslutsfattare, presenterade rapporter och var regional talesperson. Utvecklade regional närvaro i sociala medier och producerade medlemstidningen 'Dalaföretagaren'."
+      }
+    ]
   }
-]
+}
 
 // Animation variants
 const containerVariants = {
@@ -60,7 +83,12 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
-const Experience: FC<ExperienceProps> = ({ className }) => {
+interface ExperienceProps {
+  className?: string
+  lang: Language
+}
+
+const Experience: FC<ExperienceProps> = ({ className, lang }) => {
   return (
     <section 
       id="experience" 
@@ -76,13 +104,13 @@ const Experience: FC<ExperienceProps> = ({ className }) => {
         >
           <motion.div variants={itemVariants}>
             <h2 className="text-4xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-              Experience
+              {content[lang].title}
             </h2>
             <div className="w-20 h-1 bg-blue-600 mx-auto mb-12 rounded-full" />
           </motion.div>
 
           <div className="grid gap-8 max-w-4xl mx-auto">
-            {experiences.map((experience, index) => (
+            {content[lang].experiences.map((experience, index) => (
               <motion.div
                 key={`${experience.company}-${index}`}
                 variants={itemVariants}
