@@ -1,0 +1,38 @@
+---
+import { t, type Locale } from '../i18n'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+
+const services = [
+  { key: 'pr', icon: '📢' },
+  { key: 'web', icon: '🌐' },
+  { key: 'ai', icon: '⚡' },
+]
+---
+
+<section id="what-i-do" class="py-24 bg-gray-50">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="text-3xl font-bold mb-12 text-gray-900">
+      {t(locale, 'whatIDo.title')}
+    </h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      {services.map(({ key }) => (
+        <div class="bg-white rounded-xl p-8 border border-gray-100">
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">
+            {t(locale, `whatIDo.${key}.title`)}
+          </h3>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            {t(locale, `whatIDo.${key}.description`)}
+          </p>
+          <a href="#contact" class="text-gray-900 font-medium hover:underline">
+            {t(locale, 'whatIDo.cta')} →
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

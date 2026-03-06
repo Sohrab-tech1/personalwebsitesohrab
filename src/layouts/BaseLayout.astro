@@ -1,0 +1,38 @@
+---
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+
+interface Props {
+  locale: 'sv' | 'en'
+  title?: string
+}
+
+const { locale, title = 'Sohrab Fadai — PR, webb och AI från Stockholm' } = Astro.props
+---
+
+<!doctype html>
+<html lang={locale} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content="Jag hjälper företag att synas. PR, webb och AI från Stockholm." />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Jag hjälper företag att synas. PR, webb och AI från Stockholm." />
+    <meta property="og:url" content="https://sohrab.se" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  </head>
+  <body class="antialiased text-gray-900 bg-white font-sans">
+    <Header locale={locale} />
+    <slot />
+    <Footer locale={locale} />
+  </body>
+</html>
+
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+</style>
