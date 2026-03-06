@@ -1,0 +1,66 @@
+{
+  "header": {
+    "logo": "sohrab.se"
+  },
+  "hero": {
+    "name": "Sohrab Fadai",
+    "pitch": "Jag hjälper företag att synas. PR, webb och AI från Stockholm.",
+    "cta": "Hör av dig",
+    "linkedin": "LinkedIn"
+  },
+  "whatIDo": {
+    "title": "Vad jag gör",
+    "pr": {
+      "title": "PR & Kommunikation",
+      "description": "Strategisk PR, mediarelationer, opinionsbildning och kriskommunikation. Via Heartspace."
+    },
+    "web": {
+      "title": "Webbutveckling",
+      "description": "Moderna sajter för företag som vuxit ur WordPress. Snabba, mobilanpassade och med CMS."
+    },
+    "ai": {
+      "title": "AI-implementation",
+      "description": "Hjälper företag integrera AI i sina arbetsflöden. Inte teori, utan implementation."
+    },
+    "cta": "Hör av dig"
+  },
+  "cases": {
+    "title": "Utvalda projekt",
+    "items": {
+      "medis": {
+        "title": "Medis Kök & Bar",
+        "type": "Webb",
+        "description": "Ersatte en långsam WordPress-sajt med en modern, mobilanpassad upplevelse. TheFork-bokning inbyggd, 95+ PageSpeed."
+      },
+      "parklife": {
+        "title": "Northern Parklife",
+        "type": "PR & positionering",
+        "description": "Kommunikationsstrategi och mediarelationer för ett nordiskt outdoor-företag."
+      },
+      "techarena": {
+        "title": "Techarena 2026",
+        "type": "Kommunikation & webb",
+        "description": "100+ segmenterade mailkampanjer, Webflow-sajt och onsite-kommunikation för Sveriges största techkonferens."
+      },
+      "lkr": {
+        "title": "LKR / SNF",
+        "type": "Opinionsbildning",
+        "description": "Novus-undersökning, debattartikel och panelseminarium."
+      }
+    }
+  },
+  "about": {
+    "title": "Om mig",
+    "text": "Svensk-iranier, baserad i Stockholm. Retorikexamen från Uppsala, fem år som regionchef på ett näringslivsförbund, tre publicerade böcker. Grundade Heartspace 2021 för att kombinera PR-expertis med AI. Jag bygger saker som fungerar och hjälper företag som förtjänar att synas."
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Vill du jobba ihop? Hör av dig.",
+    "email": "sf@sohrab.se",
+    "phone": "+46 76 187 55 11",
+    "cta": "Skicka ett mail"
+  },
+  "footer": {
+    "copyright": "© {year} Sohrab Fadai"
+  }
+}

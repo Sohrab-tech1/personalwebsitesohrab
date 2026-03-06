@@ -1,0 +1,66 @@
+{
+  "header": {
+    "logo": "sohrab.se"
+  },
+  "hero": {
+    "name": "Sohrab Fadai",
+    "pitch": "I help companies get seen. PR, websites, and AI — from Stockholm.",
+    "cta": "Get in touch",
+    "linkedin": "LinkedIn"
+  },
+  "whatIDo": {
+    "title": "What I do",
+    "pr": {
+      "title": "PR & Communications",
+      "description": "Strategic PR, media relations, opinion pieces, and crisis comms. Via Heartspace."
+    },
+    "web": {
+      "title": "Web Development",
+      "description": "Modern websites for companies that have outgrown WordPress. Fast, mobile-first, CMS included."
+    },
+    "ai": {
+      "title": "AI Implementation",
+      "description": "Helping companies integrate AI into their workflows. Not theory — implementation."
+    },
+    "cta": "Let's talk"
+  },
+  "cases": {
+    "title": "Selected work",
+    "items": {
+      "medis": {
+        "title": "Medis Kök & Bar",
+        "type": "Web",
+        "description": "Replaced a slow WordPress site with a modern, mobile-first experience. TheFork booking built in, 95+ PageSpeed."
+      },
+      "parklife": {
+        "title": "Northern Parklife",
+        "type": "PR & positioning",
+        "description": "Communications strategy and media relations for a Nordic outdoor company."
+      },
+      "techarena": {
+        "title": "Techarena 2026",
+        "type": "Communications & web",
+        "description": "100+ segmented email campaigns, Webflow site, and on-site communications for Sweden's largest tech conference."
+      },
+      "lkr": {
+        "title": "LKR / SNF",
+        "type": "Opinion shaping",
+        "description": "Novus survey, opinion piece, and panel seminar."
+      }
+    }
+  },
+  "about": {
+    "title": "About",
+    "text": "Swedish-Iranian, based in Stockholm. Rhetoric degree from Uppsala, five years running a regional business organization, three published books. Founded Heartspace in 2021 to combine PR expertise with AI. I build things that work and help companies that deserve to be seen."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Want to work together? Reach out.",
+    "email": "sf@sohrab.se",
+    "phone": "+46 76 187 55 11",
+    "cta": "Send me an email"
+  },
+  "footer": {
+    "copyright": "© {year} Sohrab Fadai"
+  }
+}
