@@ -1,17 +1,15 @@
 'use client'
 
 import { useLocale } from 'next-intl'
-import { useRouter, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 export default function Header() {
   const locale = useLocale()
-  const router = useRouter()
   const pathname = usePathname()
 
-  const switchLocale = (newLocale: string) => {
-    const path = pathname.replace(`/${locale}`, `/${newLocale}`)
-    router.push(path)
+  const getLocalePath = (newLocale: string) => {
+    return pathname.replace(`/${locale}`, `/${newLocale}`)
   }
 
   return (
@@ -22,23 +20,23 @@ export default function Header() {
             sohrab.se
           </Link>
           <div className="flex items-center gap-1 text-sm">
-            <button
-              onClick={() => switchLocale('sv')}
+            <a
+              href={getLocalePath('sv')}
               className={`px-2 py-1 rounded transition-colors ${
                 locale === 'sv' ? 'text-gray-900 font-medium' : 'text-gray-400 hover:text-gray-600'
               }`}
             >
               SV
-            </button>
+            </a>
             <span className="text-gray-300">/</span>
-            <button
-              onClick={() => switchLocale('en')}
+            <a
+              href={getLocalePath('en')}
               className={`px-2 py-1 rounded transition-colors ${
                 locale === 'en' ? 'text-gray-900 font-medium' : 'text-gray-400 hover:text-gray-600'
               }`}
             >
               EN
-            </button>
+            </a>
           </div>
         </div>
       </div>
