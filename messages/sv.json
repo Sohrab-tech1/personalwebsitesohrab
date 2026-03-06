@@ -16,7 +16,7 @@
     },
     "web": {
       "title": "Webbutveckling",
-      "description": "Moderna sajter för företag som vuxit ur WordPress. Snabba, mobilanpassade och med CMS."
+      "description": "Snabba, moderna sajter med CMS. Inga mallar, ingen WordPress."
     },
     "ai": {
       "title": "AI-implementation",
@@ -56,6 +56,7 @@
   "contact": {
     "title": "Kontakt",
     "subtitle": "Vill du jobba ihop? Hör av dig.",
+    "linkedinNote": "Jag skriver om PR, AI och företagande på {linkedin}.",
     "email": "sf@sohrab.se",
     "phone": "+46 76 187 55 11",
     "cta": "Skicka ett mail"

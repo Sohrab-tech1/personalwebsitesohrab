@@ -8,6 +8,7 @@ interface Props {
 const { locale } = Astro.props
 const email = t(locale, 'contact.email')
 const phone = t(locale, 'contact.phone')
+const linkedinNote = t(locale, 'contact.linkedinNote').split('{linkedin}')
 ---
 
 <section id="contact" class="py-24">
@@ -15,8 +16,11 @@ const phone = t(locale, 'contact.phone')
     <h2 class="text-3xl font-bold mb-4 text-gray-900">
       {t(locale, 'contact.title')}
     </h2>
-    <p class="text-lg text-gray-600 mb-10">
+    <p class="text-lg text-gray-600 mb-2">
       {t(locale, 'contact.subtitle')}
+    </p>
+    <p class="text-base text-gray-500 mb-10">
+      {linkedinNote[0]}<a href="https://www.linkedin.com/in/sohrabf/" target="_blank" rel="noopener noreferrer" class="text-gray-900 hover:underline">LinkedIn</a>{linkedinNote[1]}
     </p>
     <div class="space-y-4 mb-10">
       <a href={`mailto:${email}`} class="flex items-center gap-3 text-gray-600 hover:text-gray-900 transition-colors">
