@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets'
 import { t, type Locale } from '../i18n'
+import heroImg from '../assets/images/sohrab-hero.jpg'
 
 interface Props {
   locale: Locale
@@ -12,11 +14,14 @@ const { locale } = Astro.props
   <div class="max-w-5xl mx-auto px-6 w-full">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       <div class="relative h-[400px] sm:h-[500px] lg:h-[600px] order-2 lg:order-1">
-        <img
-          src="/images/sohrab-hero.jpg"
+        <Image
+          src={heroImg}
           alt="Sohrab Fadai"
           class="absolute inset-0 w-full h-full object-cover object-[50%_35%] rounded-2xl"
+          widths={[400, 640, 960]}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 50vw"
           loading="eager"
+          fetchpriority="high"
         />
       </div>
       <div class="order-1 lg:order-2">
