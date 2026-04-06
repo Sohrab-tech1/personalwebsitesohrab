@@ -4,7 +4,7 @@
   },
   "hero": {
     "name": "Sohrab Fadai",
-    "pitch": "PR, public affairs och opinionsbildning — förstärkt av AI. 17 år av att få viktiga budskap att nå igenom bruset.",
+    "pitch": "PR, public affairs och opinionsbildning, förstärkt av AI. 17 år av att få viktiga budskap att nå igenom bruset.",
     "cta": "Hör av dig",
     "linkedin": "LinkedIn"
   },
@@ -51,13 +51,13 @@
   },
   "about": {
     "title": "Om mig",
-    "text": "Född i Teheran. Uppvuxen i Dalarna. Bor i Stockholm. 17 år inom svensk public affairs — regionchef på Företagarna, pr-konsult på Westander, tre publicerade böcker. IVLP-alumn (US State Department). Retorikexamen från Uppsala. Publicerar löpande analys kring demokrati och geopolitik med över 200 000 visningar. Grundade Heartspace 2021."
+    "text": "Född i Teheran. Uppvuxen i Dalarna. Bor i Stockholm. 17 år inom svensk public affairs: regionchef på Företagarna, pr-konsult på Westander, tre publicerade böcker. IVLP-alumn (US State Department). Retorikexamen från Uppsala. Publicerar löpande analys kring demokrati och geopolitik med över 200 000 visningar. Grundade Heartspace 2021."
   },
   "contact": {
     "title": "Kontakt",
     "subtitle": "Vill du jobba ihop? Hör av dig.",
     "linkedinNote": "Jag skriver om PR och AI på {linkedin}.",
-    "facebookNote": "Jag skriver om demokrati och geopolitik på {facebook}.",
+    "facebookNote": "Demokrati och geopolitik på {facebook}.",
     "email": "sf@sohrab.se",
     "phone": "+46 76 187 55 11",
     "cta": "Skicka ett mail"
