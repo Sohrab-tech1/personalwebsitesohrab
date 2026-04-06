@@ -4,7 +4,7 @@
   },
   "hero": {
     "name": "Sohrab Fadai",
-    "pitch": "Jag får viktiga budskap att nå igenom bruset. PR, webb och AI från Stockholm.",
+    "pitch": "PR, public affairs och opinionsbildning — förstärkt av AI. 17 år av att få viktiga budskap att nå igenom bruset.",
     "cta": "Hör av dig",
     "linkedin": "LinkedIn"
   },
@@ -12,7 +12,7 @@
     "title": "Vad jag gör",
     "pr": {
       "title": "PR & Kommunikation",
-      "description": "Strategisk PR, mediarelationer, opinionsbildning och kriskommunikation. Via Heartspace."
+      "description": "Strategisk PR, public affairs, mediarelationer och opinionsbildning. Kunder publicerade på DN Debatt, SvD, DI Debatt, TechCrunch och Forbes. Via Heartspace."
     },
     "web": {
       "title": "Webbutveckling",
@@ -20,7 +20,7 @@
     },
     "ai": {
       "title": "AI-implementation",
-      "description": "Hjälper företag integrera AI i sina arbetsflöden. Inte teori, utan implementation."
+      "description": "AI-verktyg för kommunikation och analys. Erkänd av AI Sweden, antagen till Google for Startups. Inte teori, utan implementation."
     },
     "cta": "Hör av dig"
   },
@@ -51,12 +51,13 @@
   },
   "about": {
     "title": "Om mig",
-    "text": "Uppvuxen i Dalarna. Född i Teheran. Bor i Stockholm. Retorikexamen från Uppsala, fem år som regionchef på Företagarna, pr-konsult på Westander, tre publicerade böcker. Grundade pr-byrån Heartspace 2021. Jag får viktiga budskap att nå igenom bruset."
+    "text": "Född i Teheran. Uppvuxen i Dalarna. Bor i Stockholm. 17 år inom svensk public affairs — regionchef på Företagarna, pr-konsult på Westander, tre publicerade böcker. IVLP-alumn (US State Department). Retorikexamen från Uppsala. Publicerar löpande analys kring demokrati och geopolitik med över 200 000 visningar. Grundade Heartspace 2021."
   },
   "contact": {
     "title": "Kontakt",
     "subtitle": "Vill du jobba ihop? Hör av dig.",
-    "linkedinNote": "Jag skriver om PR, AI och företagande på {linkedin}.",
+    "linkedinNote": "Jag skriver om PR och AI på {linkedin}.",
+    "facebookNote": "Jag skriver om demokrati och geopolitik på {facebook}.",
     "email": "sf@sohrab.se",
     "phone": "+46 76 187 55 11",
     "cta": "Skicka ett mail"

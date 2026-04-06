@@ -4,7 +4,7 @@
   },
   "hero": {
     "name": "Sohrab Fadai",
-    "pitch": "I get important messages through the noise. PR, websites, and AI — from Stockholm.",
+    "pitch": "PR, public affairs, and opinion shaping — backed by AI. 17 years of getting important messages through the noise.",
     "cta": "Get in touch",
     "linkedin": "LinkedIn"
   },
@@ -12,7 +12,7 @@
     "title": "What I do",
     "pr": {
       "title": "PR & Communications",
-      "description": "Strategic PR, media relations, opinion pieces, and crisis comms. Via Heartspace."
+      "description": "Strategic PR, public affairs, media relations, and opinion pieces. Clients placed on DN Debatt, SvD, DI Debatt, TechCrunch, and Forbes. Via Heartspace."
     },
     "web": {
       "title": "Web Development",
@@ -20,7 +20,7 @@
     },
     "ai": {
       "title": "AI Implementation",
-      "description": "Helping companies integrate AI into their workflows. Not theory — implementation."
+      "description": "AI-powered tools for communications and analysis. Recognized by AI Sweden, accepted into Google for Startups. Not theory — implementation."
     },
     "cta": "Let's talk"
   },
@@ -51,12 +51,13 @@
   },
  "about": {
     "title": "About",
-    "text": "Raised in Dalarna. Born in Tehran. Based in Stockholm. Rhetoric degree from Uppsala, five years as regional director at Företagarna, PR consultant at Westander, three published books. Founded the PR agency Heartspace in 2021. I get important messages through the noise."
+    "text": "Born in Tehran. Raised in Dalarna. Based in Stockholm. 17 years in Swedish public affairs — regional director at Företagarna, PR consultant at Westander, three published books. IVLP alumnus (US State Department). Rhetoric degree from Uppsala. Currently publishing analysis on democracy and geopolitics reaching 200,000+ views. Founded Heartspace in 2021."
 },
   "contact": {
     "title": "Contact",
     "subtitle": "Want to work together? Reach out.",
-    "linkedinNote": "I write about PR, AI, and entrepreneurship on {linkedin}.",
+    "linkedinNote": "I write about PR and AI on {linkedin}.",
+    "facebookNote": "I write about democracy and geopolitics on {facebook}.",
     "email": "sf@sohrab.se",
     "phone": "+46 76 187 55 11",
     "cta": "Send me an email"
